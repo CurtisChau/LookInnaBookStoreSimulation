@@ -442,6 +442,36 @@ export default class DataStore {
   }
 
   @action.bound
+  async addNewBookEntry(
+    name: String,
+    id: String,
+    pages: number,
+    price: number,
+    author: String,
+    genre: String,
+    publisher: String,
+    stock: number
+  ) {
+    try {
+      await axios.post("http://localhost:3000/addabook", {
+        id: id,
+        price: price,
+        pages: pages,
+        author: author,
+        name: name,
+        genre: genre,
+        stock: stock,
+        publisher: publisher,
+      });
+
+      this.clearBookArray();
+      await this.requestBooks();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  @action.bound
   async requestLogin(name: String, password: String) {
     console.log(`Sending ${name} + ${password}`);
     const response = await axios.post("http://localhost:3000/user", {
@@ -495,12 +525,21 @@ export default class DataStore {
             this.addOrderTo(orderIndex, {
               book_id: data.book_id,
               amount: data.number,
+              billing: data?.billing,
+              Shipping: data?.shipping,
             });
           } else {
             //add new entry then add the corresponding element
             this.updateUserOrder({
               id: data.order_id,
-              orders: [{ book_id: data.book_id, amount: data.number }],
+              orders: [
+                {
+                  book_id: data.book_id,
+                  amount: data.number,
+                  billing: data?.billing,
+                  Shipping: data?.shipping,
+                },
+              ],
             });
           }
         });
@@ -568,6 +607,20 @@ export default class DataStore {
     try {
       await this.requestCollection();
 
+      await this.requestBooks();
+      //get publisher
+
+      //get admin logs
+
+      console.log(this.collectionMap);
+    } catch (err: any) {
+      console.log(err);
+    }
+  }
+
+  @action.bound
+  async requestBooks() {
+    try {
       const bookResponse = await axios.get("http://localhost:3000/books");
 
       bookResponse.data?.forEach((book) => {

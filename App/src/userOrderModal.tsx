@@ -37,6 +37,8 @@ export class UserOrderModal extends React.Component<
                   {data.orders.map((order) => (
                     <>
                       <Message.Item>Book Id:{order.book_id}</Message.Item>
+                      <Message.Item>Shipping: {order?.Shipping}</Message.Item>
+                      <Message.Item>Billing: {order?.billing}</Message.Item>
                       <Message.Item>Order Amount:{order.amount}</Message.Item>
                       <Message.Item>
                         Third party shipping services: UPS

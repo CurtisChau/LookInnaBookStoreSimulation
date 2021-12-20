@@ -58,6 +58,29 @@ app.get("/collectionId", async (_req, res) => {
   }
 });
 
+app.post("/addabook", async (req, res) => {
+  let activeArray = [];
+  try {
+    console.log(req.body);
+    const { rows } = await pool.query(
+      "Insert into book(id,price,pages,author,name,genre,stock,publisher) Values($1,$2,$3,$4,$5,$6,$7,$8)",
+      [
+        req.body.id,
+        req.body.price,
+        req.body.pages,
+        req.body.author,
+        req.body.name,
+        req.body.genre,
+        req.body.stock,
+        req.body.publisher,
+      ]
+    );
+  } catch (err) {
+    res.send("Failure");
+    console.log(err);
+  }
+});
+
 app.post("/user", async (req, res) => {
   let activeArray = [];
   try {
