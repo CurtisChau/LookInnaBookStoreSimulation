@@ -20,8 +20,11 @@ Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 # To start client
-Go into the src folder and do
+Go into the App folder and install all dependcies first.
+`cd App`
 `npm install`
+`cd src`
+Go into the src folder and do
 `npm start`
 Runs the app in the development mode.<br />
 Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
